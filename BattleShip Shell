@@ -1,0 +1,71 @@
+/*
+***This file is for the pseudocode/shell for main for battleship***
+Group: Pace 2
+  Jordan Sustarsic
+CSC201
+12/9/2020
+Description: This Program is going to make a BattleShip game using a 2D array as the board.
+*/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//Data structures
+enum Columns{A, B, C, D, E, F, G, H, I, J};
+enum Rows{ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN};
+
+//This function will take a response from the user(which space the would like to shoot) and normalize the response
+//Pre: Need a response typed from user
+//Post: will return normalized response or the corresponding enums
+string NormalizeResponse(/*IN*/string &response, /*INOUT*/Rows &rowGuessed, /*INOUT*/Columns &colGuessed);
+
+//This function will take in the array and fill it with the necessary game symbols
+//Pre: a 2D array using enums as the rows and columns
+//post: will fill the array with the proper game characters
+void InitArray(/*INOUT*/char theArray[10][10], /*INOUT*/int &numCount);
+
+//This function will take in the array and numCount to ouput the contents of the array
+//Pre: numCount must contain max amount of inputs
+//Post: will output the array to the screen with rows and columns
+void PrintArray(/* IN */const char theArray[10][10],/* IN */ int numCount);
+
+//This function will take in the row and column guessed and return the char that is in that spot
+//Pre: A column and row guess
+//Post: Will return the char that is in that spot
+char FindChar(/* IN */const char theArray[10][10],/* IN */ int numCount, /*IN*/Rows rowGuess, /*IN*/Columns colGuessed);
+
+//This function will determine if a location has been hit or missed and change the space accordingly
+//Pre: an initiated array and values for the enums
+//Post: will determine if the guess was a hit or not and change the array accordingly
+bool DetermineHitMiss(/*INOUT*/ char theArray[10][10], /*IN*/int numCount, /*IN*/Rows rowGuess, /*IN*/Columns colGuessed);
+
+main()
+{
+  char boardArray[10][10];
+  int numCount = 0;
+  Rows rowGuessed;
+  Columns colGuessed;
+  string response;
+  bool loop = true;
+
+  InitArray(boardArray[10][10], numCount);
+  PrintArray(boardArray[10][10], numCount);
+
+  while(loop == true)
+    {
+      cout << "Guess or to Stop Type End: \n"
+      cin  << response;
+
+      NormalizeResponse(response, rowGuessed, colGuessed);
+
+      if(response == "END")
+        loop = false;
+      else
+        DetermineHitMiss(boardArray[10][10], numCount, rowGuess, colGuessed)
+        PrintArray(boardArray[10][10], numCount);
+    }
+
+    return 0;
+}
