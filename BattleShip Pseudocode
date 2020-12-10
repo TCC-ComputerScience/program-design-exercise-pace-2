@@ -2,6 +2,7 @@
 ***This file is for the pseudocode/shell for main for battleship***
 Group: Pace 2
   Jordan Sustarsic
+  Zachary Gossman
 CSC201
 12/9/2020
 Description: This Program is going to make a BattleShip game using a 2D array as the board.
