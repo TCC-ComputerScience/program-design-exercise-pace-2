@@ -7,6 +7,7 @@ CSC201
 Description: This Program is going to make a BattleShip game using a 2D array as the board.
 */
 
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -19,7 +20,7 @@ enum Rows{ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN};
 //This function will take a response from the user(which space the would like to shoot) and normalize the response
 //Pre: Need a response typed from user
 //Post: will return normalized response or the corresponding enums
-string NormalizeResponse(/*IN*/string &response, /*INOUT*/Rows &rowGuessed, /*INOUT*/Columns &colGuessed);
+void NormalizeResponse(/*IN*/string &response, /*INOUT*/Rows &rowGuessed, /*INOUT*/Columns &colGuessed);
 
 //This function will take in the array and fill it with the necessary game symbols
 //Pre: a 2D array using enums as the rows and columns
@@ -34,7 +35,7 @@ void PrintArray(/* IN */const char theArray[10][10],/* IN */ int numCount);
 //This function will take in the row and column guessed and return the char that is in that spot
 //Pre: A column and row guess
 //Post: Will return the char that is in that spot
-char FindChar(/* IN */const char theArray[10][10],/* IN */ int numCount, /*IN*/Rows rowGuess, /*IN*/Columns colGuessed);
+char FindChar(/* IN */const char theArray[10][10],/*IN*/Rows rowGuess, /*IN*/Columns colGuessed);
 
 //This function will determine if a location has been hit or missed and change the space accordingly
 //Pre: an initiated array and values for the enums
@@ -44,28 +45,140 @@ bool DetermineHitMiss(/*INOUT*/ char theArray[10][10], /*IN*/int numCount, /*IN*
 main()
 {
   char boardArray[10][10];
-  int numCount = 0;
+  int numCount = 10;
   Rows rowGuessed;
   Columns colGuessed;
   string response;
   bool loop = true;
 
-  InitArray(boardArray[10][10], numCount);
-  PrintArray(boardArray[10][10], numCount);
+  InitArray(boardArray, numCount);
+  PrintArray(boardArray, numCount);
 
   while(loop == true)
     {
-      cout << "Guess or to Stop Type End: \n"
-      cin  << response;
+      cout << "Guess or to Stop Type End: \n";
+      cin  >> response;
 
       NormalizeResponse(response, rowGuessed, colGuessed);
 
       if(response == "END")
         loop = false;
       else
-        DetermineHitMiss(boardArray[10][10], numCount, rowGuess, colGuessed)
-        PrintArray(boardArray[10][10], numCount);
+      {
+        DetermineHitMiss(boardArray, numCount, rowGuessed, colGuessed);
+        PrintArray(boardArray, numCount);
+      }
     }
 
     return 0;
+}
+
+
+void NormalizeResponse(/*IN*/string &response, /*INOUT*/Rows &rowGuessed, /*INOUT*/Columns &colGuessed)
+{
+    string capitalized;
+
+    for(int i = 0; i < response.length(); i++)  //Loop to make response all uppercase to normalize
+        capitalized += toupper(response[i]);
+
+    response = capitalized;
+
+    if(response[0] == 'A')  //Translating response into enums
+        colGuessed = A;
+    else if(response[0] == 'B')
+        colGuessed = B;
+    else if(response[0] == 'C')
+        colGuessed = C;
+    else if(response[0] == 'D')
+        colGuessed = D;
+    else if(response[0] == 'E')
+        colGuessed = E;
+    else if(response[0] == 'F')
+        colGuessed = F;
+    else if(response[0] == 'G')
+        colGuessed = H;
+    else if(response[0] == 'I')
+        colGuessed = I;
+    else if(response[0] == 'J')
+        colGuessed = J;
+
+    if(response[1] == '1')
+        rowGuessed = ONE;
+    if(response[1] == '2')
+        rowGuessed = TWO;
+    if(response[1] == '3')
+        rowGuessed = THREE;
+    if(response[1] == '4')
+        rowGuessed = FOUR;
+    if(response[1] == '5')
+        rowGuessed = FIVE;
+    if(response[1] == '6')
+        rowGuessed = SIX;
+    if(response[1] == '7')
+        rowGuessed = SEVEN;
+    if(response[1] == '8')
+        rowGuessed = EIGHT;
+    if(response[1] == '9')
+        rowGuessed = NINE;
+    if(response[1] == '1' && response[2] == '0')
+        rowGuessed = TEN;
+
+
+}
+
+void InitArray(/*INOUT*/char theArray[][10], /*INOUT*/int &numCount)
+{
+    cout << "in InitArray\n";
+    for(int row = 0; row < numCount; row++) //loop to run through rows
+        for(int col = 0; col < numCount; col++) //loop to run through columns
+            theArray[row][col]= '~'; //stores '~' in the array
+
+    theArray[5][5] = '#';
+    theArray[6][5] = '#';
+    theArray[7][5] = '#';
+}
+
+void PrintArray(/* IN */const char theArray[][10],/* IN */ int numCount)
+{
+    int rowNum = 1;
+
+    cout << "      A    B    C    D    E    F    G    H    I    J\n";
+    for(int row = 0; row < numCount; row++) //Loop to run through every row
+    {
+        cout << rowNum++ << " ";
+
+     for(int col = 0; col < numCount; col++) //loop to run through every column
+        cout << setw(5) << theArray[row][col];  //Print contents of the array to the screen at specific point
+        cout << endl << endl;
+    }
+}
+
+bool DetermineHitMiss(/*INOUT*/ char theArray[10][10], /*IN*/int numCount, /*IN*/Rows rowGuess, /*IN*/Columns colGuessed)
+{
+    char character;
+
+    character = FindChar(theArray, rowGuess, colGuessed);
+
+    if(character == '~')
+    {
+        cout << "MISS\n";
+        return false;
+    }
+    else if(character == '#')
+    {
+        cout << "HIT\n";
+        return true;
+    }
+    else
+        cout << "Error\n";
+
+}
+
+char FindChar(/* IN */const char theArray[10][10],/*IN*/Rows rowGuess, /*IN*/Columns colGuessed)
+{
+    char character;
+
+    character = theArray[rowGuess][colGuessed];
+
+    return character;
 }
